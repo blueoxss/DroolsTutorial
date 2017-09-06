@@ -1,0 +1,16 @@
+package events.heartm;
+
+import org.drools.devguide.other.events.HeartAttackEvent;
+import org.drools.devguide.other.events.HeartBeatEvent;
+
+rule "No heart beat in the last 5 seconds!"
+    when
+        not(
+            HeartBeatEvent() 
+            over window:time(5s)
+        )
+    then
+    		System.out.println("heart-monitor-rules matched");
+        insert(new HeartAttackEvent());
+        drools.halt();
+end
